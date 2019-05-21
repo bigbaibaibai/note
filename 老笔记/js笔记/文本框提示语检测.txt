@@ -1,0 +1,24 @@
+	var hint=function (name,hintName){
+		name.addEventListener('focus',function(){
+			hintName.innerHTML='请输入信息';
+			hintName.style.color='#999';
+		},false);
+		name.addEventListener('change',function(){
+			if(name.value!='')
+			{
+				hintName.style.color='green';
+				hintName.innerHTML='正确';
+			}
+		},false);
+		name.addEventListener('blur',function(){
+			if(name.value=='')
+			{
+				hintName.style.color='red';
+				hintName.innerHTML='错误';
+			}
+			else{
+				hintName.style.color='green';
+				hintName.innerHTML='正确';
+			}
+		},false);
+	}

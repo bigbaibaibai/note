@@ -1,0 +1,56 @@
+	protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+		// Tell the internal bean factory to use the context's class loader etc.
+		//设置BeanFactory的类加载器
+		beanFactory.setBeanClassLoader(getClassLoader());
+		//设置表达式解析器
+		beanFactory.setBeanExpressionResolver(new StandardBeanExpressionResolver(beanFactory.getBeanClassLoader()));
+		//添加属性编辑注册器
+		beanFactory.addPropertyEditorRegistrar(new ResourceEditorRegistrar(this, getEnvironment()));
+
+		// Configure the bean factory with context callbacks.使用上下文回调工厂
+		//添加一个Bean后置处理器ApplicationContextAwareProcessor，用于用户注入全局应用容器
+		beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
+		//设置忽略的自动装配的接口，这些接口的类型不能直接注入
+		beanFactory.ignoreDependencyInterface(EnvironmentAware.class);
+		beanFactory.ignoreDependencyInterface(EmbeddedValueResolverAware.class);
+		beanFactory.ignoreDependencyInterface(ResourceLoaderAware.class);
+		beanFactory.ignoreDependencyInterface(ApplicationEventPublisherAware.class);
+		beanFactory.ignoreDependencyInterface(MessageSourceAware.class);
+		beanFactory.ignoreDependencyInterface(ApplicationContextAware.class);
+
+		// BeanFactory interface not registered as resolvable type in a plain factory.
+		//在普通工厂中，BeanFactory接口没有注册为可解析类型。
+		// MessageSource registered (and found for autowiring) as a bean.  
+		//MessageSource作为bean注册(并用于自动连接)。
+		//注册可以解析的自动装配；我们能直接在任何组件中自动注入：
+		beanFactory.registerResolvableDependency(BeanFactory.class, beanFactory);  //注册BeanFactory
+		beanFactory.registerResolvableDependency(ResourceLoader.class, this);  //注册ResourceLoader资源加载器
+		beanFactory.registerResolvableDependency(ApplicationEventPublisher.class, this);  //注册ApplicationEventPublisher，事件多播器（还未创建）
+		beanFactory.registerResolvableDependency(ApplicationContext.class, this);  //注册全局容器
+
+		// Register early post-processor for detecting inner beans as ApplicationListeners.
+		//注册早期的后处理器，以便将内部bean检测为applicationlistener。
+		beanFactory.addBeanPostProcessor(new ApplicationListenerDetector(this));  //添加后置处理器，监听侦查器，用于事件发布的监听
+
+		// Detect a LoadTimeWeaver and prepare for weaving, if found.  检测LoadTimeWeaver并准备编织，如果找到的话。
+		//对AspectJ支持有作用的，添加编译时的AspectJ；
+		if (beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
+			beanFactory.addBeanPostProcessor(new LoadTimeWeaverAwareProcessor(beanFactory));
+			// Set a temporary ClassLoader for type matching.
+			beanFactory.setTempClassLoader(new ContextTypeMatchClassLoader(beanFactory.getBeanClassLoader()));
+		}
+
+		// Register default environment beans.  注册默认环境bean，给BeanFactory中注册一些能用的组件；
+		if (!beanFactory.containsLocalBean(ENVIRONMENT_BEAN_NAME)) {
+			//注册环境信息对象
+			beanFactory.registerSingleton(ENVIRONMENT_BEAN_NAME, getEnvironment());
+		}
+		if (!beanFactory.containsLocalBean(SYSTEM_PROPERTIES_BEAN_NAME)) {
+			//注册java环境变量
+			beanFactory.registerSingleton(SYSTEM_PROPERTIES_BEAN_NAME, getEnvironment().getSystemProperties());
+		}
+		if (!beanFactory.containsLocalBean(SYSTEM_ENVIRONMENT_BEAN_NAME)) {
+			//注册系统环境变量
+			beanFactory.registerSingleton(SYSTEM_ENVIRONMENT_BEAN_NAME, getEnvironment().getSystemEnvironment());
+		}
+	}

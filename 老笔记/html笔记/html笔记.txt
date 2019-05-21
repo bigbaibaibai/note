@@ -1,0 +1,8 @@
+1.
+	nth-child(n) ：选择器匹配属于其父元素的第 N 个子元素，不论元素的类型。
+	隔行变色：	tr:nth-child(even)    even偶数  odd奇数
+		{
+			background:#F4F4F4;
+		}
+2.
+	盒模型大小被宽度高度限制：box-sizing: border-box;

@@ -1,0 +1,204 @@
+/*  
+//**************Function（函数）
+function box(num1,num2)   //普通函数的声明方式
+{
+	return num1 + num2;
+}
+alert(box(1,2));//3
+ 
+
+
+var box=function(num1,num2) //变量初始化函数
+{
+	return num1+num2;
+}
+alert(box(1,2)); //3
+
+
+
+//使用Function构造函数	使用new的构造函数来声明函数
+var box=new Function('num1','num2','return num1+num2');
+alert(box(1,2));//3
+alert(typeof(box));//function
+//这种语法会导致解析两次代码，从而影响性能
+
+
+//下面的例子很普通，不是作为函数传递的，而是作为函数的返回值来传递的
+function box(sum,num)
+{
+	return sum+num;
+}
+function sum(num)
+{
+	return num+10; 
+}
+alert(box(sum(10),10));   //30     sum(10)这里传递的是函数的返回值，
+//和普通的变量一样
+
+
+
+//要把函数本身作为参数传递，而不是函数的结果
+function box(sum,num)
+{
+	return sum(num);
+}
+function sum(num)
+{
+	return num+10; 
+}
+var result=box(sum,10);   //这里sum是一个函数，当做参数传递到另外一个函数里
+alert(result);//20
+
+
+
+
+//对于阶乘函数 一般要用到递归算法 
+function sum(num)
+{
+	if (num<=1)
+		return 1;
+	else
+	{
+		return num*sum(num-1); //4*3*2*1=24 阶乘，递归
+	}
+}
+alert(sum(4)); //24
+
+
+
+//callee 是 arguments 对象的一个属性。
+//它可以用于引用该函数的函数体内当前正在执行的函数。
+//这在函数的名称是未知时很有用，
+//例如在没有名称的函数表达式 (也称为“匿名函数”)内。
+function sum(num)
+{
+	if (num<=1)
+		return 1;
+	else
+	{
+		return num*arguments.callee(num-1); //4*3*2*1=24 阶乘，递归
+	}
+
+}
+alert(sum(4)); //24
+
+
+// window 是一个对象，而且是JS里面最大的对象，是最外围的对象
+//alert(typeof window); window是对象，类型是对象
+//alert(this);//[object Window] this 目前表示的就是wind，因为在window范围下。
+//alert(typeof this);//[object] 和window一模一样，所以this就是window
+
+
+var color='这是红色的';//这里color就是全局变量，
+//而这个变量有是window下的属性
+alert(window.color);//这是红色的
+//这里就很好的说明了color是Window下的属性
+alert(this.color);//这是红色的
+
+
+
+window.color='这是红色的'; //相当于 var color='这是红色的'???
+//是一样的
+
+
+
+window.color='红色的';
+var box={
+	color:'蓝色的',      //局部的color
+	Saycolor:function()
+	{
+		alert(this.color);   //蓝色的//此时的this只能是box里的color
+	}
+};
+alert(this.color+'|');//红色的|  //打印全局的color
+box.Saycolor();     
+alert(this.color);
+
+
+window.color='红色的' ;
+function sayColor()
+{
+	alert(this.color); //红色的
+}
+sayColor();   //这里调用sayColor,其实范围还是在window下的 
+
+
+
+
+
+window.color='红色的' ;
+function sayColor()
+{
+	alert(this.color); //红色的 //所以这里执行的时候是动态的，
+	//第一次在window下啊，第二次在box下
+}
+sayColor();   //这里调用sayColor,其实范围还是在window下的 =
+var box={
+	color:'蓝色的',
+};
+box.sayColor=sayColor;//蓝色的 //这句代码相当于
+box.sayColor();					/*
+								var box={
+									Saycolor:function()
+									{
+										alert(this.color);  
+									}
+								};
+
+
+
+function box(name,age)
+{
+	return name+age;
+}
+alert(box.length);//2 打印出长度
+*/
+
+function box(num1,num2)
+{
+	return num1+num2;
+}
+function sum(num1,num2)
+{
+	return box.apply(this,[num1,num2]);
+}
+alert(sum(10,10)); //20
+
+
+
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+    this.alertName = function () {
+        alert(this.name);
+    }
+    this.alertAge = function () {
+        alert(this.age);
+    }
+}
+ 
+function webDever(name, age, sex) {
+    Person.call(this, name, age);
+    this.sex = sex;
+    this.alertSex = function () {
+        alert(this.sex);
+    }
+}
+ 
+var test = new webDever("愚人码头", 28, "男");
+test.alertName();//愚人码头
+test.alertAge();//28
+test.alertSex();//男
+
+
+
+
+
+
+
+
+
+
+
+
+

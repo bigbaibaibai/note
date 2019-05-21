@@ -1,0 +1,78 @@
+	//真正执行缓存操作的地方
+	private Object execute(final CacheOperationInvoker invoker, Method method, CacheOperationContexts contexts) {
+		// Special handling of synchronized invocation  同步调用的特殊处理
+		if (contexts.isSynchronized()) {
+			CacheOperationContext context = contexts.get(CacheableOperation.class).iterator().next();
+			if (isConditionPassing(context, CacheOperationExpressionEvaluator.NO_RESULT)) {
+				Object key = generateKey(context, CacheOperationExpressionEvaluator.NO_RESULT);
+				Cache cache = context.getCaches().iterator().next();
+				try {
+					return wrapCacheValue(method, cache.get(key, new Callable<Object>() {
+						@Override
+						public Object call() throws Exception {
+							return unwrapReturnValue(invokeOperation(invoker));
+						}
+					}));
+				}
+				catch (Cache.ValueRetrievalException ex) {
+					// The invoker wraps any Throwable in a ThrowableWrapper instance so we
+					// can just make sure that one bubbles up the stack.
+					throw (CacheOperationInvoker.ThrowableWrapper) ex.getCause();
+				}
+			}
+			else {
+				// No caching required, only call the underlying method
+				return invokeOperation(invoker);
+			}
+		}
+
+
+		// Process any early evictions   处理任何早期驱逐
+		processCacheEvicts(contexts.get(CacheEvictOperation.class), true,
+				CacheOperationExpressionEvaluator.NO_RESULT);
+
+		// Check if we have a cached item matching the conditions  如果我们有一个符合条件的缓存项
+		//尝试从缓存中获取结果
+		Cache.ValueWrapper cacheHit = findCachedItem(contexts.get(CacheableOperation.class));
+
+		// Collect puts from any @Cacheable miss, if no cached item is found   如果没有找到缓存项，则从所有@Cacheable收集数据
+
+		//如果缓存中没有，把该@Cacheable注解的value或cacheNames属性，包装成一个CachePutRequest对象存到集合中
+		// value/cacheNames：指定缓存名（缓存分类），CacheManager里Cache的名字，例如员工缓存：emp，可以指定多个缓存名
+		List<CachePutRequest> cachePutRequests = new LinkedList<CachePutRequest>();
+		if (cacheHit == null) {
+			collectPutRequests(contexts.get(CacheableOperation.class),
+					CacheOperationExpressionEvaluator.NO_RESULT, cachePutRequests);
+		}
+		//需要缓存起来的值       这两个对象一般情况下都是一样的，是对javaUtilOptionalClass类型的对象进行了特殊处理
+		Object cacheValue;
+		//需要返回的值
+		Object returnValue;
+		//缓存中有值
+		if (cacheHit != null && cachePutRequests.isEmpty() && !hasCachePut(contexts)) {
+			// If there are no put requests, just use the cache hit   如果没有put请求，就使用缓存命中
+			//如果没有put请求，获取缓存中的值
+			cacheValue = cacheHit.get();
+			returnValue = wrapCacheValue(method, cacheValue);
+		}
+		else {
+			// Invoke the method if we don't have a cache hit  如果没有缓存命中，则调用该方法
+			returnValue = invokeOperation(invoker);
+			cacheValue = unwrapReturnValue(returnValue);
+		}
+
+		// Collect any explicit @CachePuts  收集任何显式@ cacheput
+		// 获取@CachePuts注解中的Cache，如果只使用@Cacheable，则为空
+		collectPutRequests(contexts.get(CachePutOperation.class), cacheValue, cachePutRequests);
+
+		// Process any collected put requests, either from @CachePut or a @Cacheable miss  处理从@CachePut或@Cacheable miss收集的put请求
+		// 把结果添加到需要添加的put cache中，
+		for (CachePutRequest cachePutRequest : cachePutRequests) {
+			cachePutRequest.apply(cacheValue);
+		}
+
+		// Process any late evictions   处理任何迟来的驱逐
+		processCacheEvicts(contexts.get(CacheEvictOperation.class), false, cacheValue);
+ 
+		return returnValue;
+	}

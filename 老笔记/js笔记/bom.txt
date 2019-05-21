@@ -1,0 +1,70 @@
+1、
+	confirm('请确定或取消');        //返回ture或false   弹出一个带有确认取消的对话框
+	if(confirm('请确定或取消'))
+		alert('您按了确定')；
+	else
+		alert('您按了取消');
+
+2.
+	prompt('请输入一个数字',0);    //返回一个数据  弹出一个可输出的对话框，并返回输入值。
+                               //参数1是标题，参数2是默认值，如果什么也没输返回null。
+
+3.
+	defaultStantus='状态栏';   //状态栏初始值
+	status='改变';       //状态栏临时改变
+	<span onmouseover='a()'>测试</span>     //鼠标放置元素上时调用函数a()
+
+4.
+	open('http://www.baidu.com','_parent'('自定义'));       
+				  //参数1，打开内容的url（网址）。
+					参数2，打开时为打开位置命名或者是目标，以后均在此位置打开。命名自定义
+						目标：
+							_blank:新建窗口，默认，每次刷新都会打开一个新窗口。
+							_parent表示在本窗口内加载。
+					参数3，一些功能或参数，比较多，百度搜吧。
+5.
+	window.screenLeft   //获取网页显示页面尺寸开始位置左边 
+	window.ScreenTop    //获取开始位置上边。
+                        //不支持火狐，普通返回number量，火狐返回不存在。
+
+   	window.screenX      //获取网页显示页面尺寸开始位置左边 
+  	window.screenY      //获取开始位置上边。
+                        //不支持IE，普通返回number量，IE返回不存在。
+    var lefX=typeof window.screenLeft=='number'?window.screenLeft:window.screenX;
+    var lefY=typeof window.screenTop=='number'?window.screenTop:window.screenY;
+                        //兼容模式。
+6.
+	window.innerWidth   //返回显示页面的宽度
+	window.innerHeight  //返回显示页面的高度
+	window.outerWidth   //返回显示页面的宽度+边框
+	window.outerHeight  //返回显示页面的高度+边框   
+						//IE不支持
+
+	var width=window.innerWidth;
+	var height=window.innerHeint;
+	if(typeof width!='number')
+	{
+		if(document.compatMode=='CSS1Compat'){
+			width=document.documentElement.clientWidth;
+			Height=document.documentElement.clientHeight;
+			
+		}
+		else{
+			width=document.body.clientWidth;
+			height=document.body.clientHeight;
+		}
+	}
+
+	//兼容模式
+7.
+	var box=setTimeout(function(){
+		alert('lee');
+	},2000)              //延迟后执行，超时调用。
+						 //第一个参数最好是一个函数，利于扩展和封装，
+	                     //第二个参数是延迟时间，单位毫秒。返回值是一个ID
+	 clearTimeout(box);  //清理超时调用，参数为超时调用的ID                 
+	 document.getElementByld('a').innerHTML;      //获取html文件中id为a的元素里的内容
+8.
+	window.location    //获取当前地址，有很多属性，可以百度，大多是端口，服务器有效。
+9.
+	window.history     //历史记录

@@ -1,0 +1,20 @@
+
+先写一个表单
+
+	checkCode：<input type="text" name="check_code_key"> 
+
+图片处这样写，自动会创建一个session属性，属性名为CHECK_CODE_KEY
+
+	<img alt="" src="<%=request.getContextPath() %>/validateColorServlet">
+
+然后在servlet里作比较即可
+
+	String check_code_key=request.getParameter("check_code_key");
+	String CHECK_CODE_KEY=(String)request.getSession().getAttribute("CHECK_CODE_KEY");
+	response.setCharacterEncoding("UTF-8");
+	response.setContentType("text/html;charset=utf-8");
+	if (check_code_key.equalsIgnoreCase(CHECK_CODE_KEY)) {
+		response.getWriter().print("<h4>验证成功！</h4>");
+	}else {
+		response.getWriter().print("<h4>验证失败！</h4>");
+	}

@@ -1,0 +1,163 @@
+
+**********************************************对象和数组
+
+
+var box=new Object();//创建一个对象
+alert(typeof box);
+
+
+
+
+var box=Object();//new 是可以省略的
+alert(box);
+
+
+
+
+var box={}; //字面量方式创建对象
+alert(box);
+
+
+
+
+var box={		//用自变量方式封装数据
+	name:'陈建局', 
+	age:21
+};
+alert(box.name);
+
+
+
+
+var box={};			//字面量方式
+box.name='陈建局';	//传统赋值方式
+alert(box.name);
+
+
+
+
+
+var box={		
+	name:'陈建局', 
+	age:21
+};
+alert(box.name);
+alert(box['name']); //用数组的方式输出  需要加引号
+
+
+
+
+
+var box={		
+	name:'陈建局', 
+	age:21,
+	run:function()			//匿名函数
+	{
+		return 123;
+	}
+};
+alert(box.run());		//调用方法（函数），如果没有圆括号，会打印代码
+						//有圆括号,才会打印返回值。
+	
+
+
+					
+var box={
+	name:'陈建局',
+};
+alert(box.name);
+delete box.name;	//删除属性
+alert(box.name);
+
+
+
+
+
+var box=['陈建局',21,'计算机编程'];
+alert (box.join('|'));			//使用join（）方法，使用不同的分隔符来构建这个字符串
+
+
+
+
+
+var box=['陈建局',21,'濮阳'];
+alert(box.push('计算机编程')); //给数组末尾添加了N个元素，并返回数组最新长度
+alert(box);
+alert(box.pop());//移除数组最后的元素,并且返回移除的元素。
+alert(box);
+
+
+
+
+
+var box=['陈建局',21,'濮阳'];
+alert(box.push('计算机编程'));
+alert(box);
+alert(box.shift());		//移除数组开头的一个元素，并且返回这个元素。
+alert(box);
+
+
+
+
+
+var box=['陈建局',21,'濮阳'];
+alert(box.unshift('河南')); //给数组前段添加一个元素，并且返回最新的长度。
+alert(box);
+
+
+
+
+
+
+***********   reverse() //逆向排序;
+***********   sort()//从小到大排序;
+
+var box=[1,2,3,4,5,6];  //数组
+alert(box.reverse());	//逆向排序法，返回排序后的数组
+alert(box);//原数组也被逆向排序了，说明是引用
+
+
+
+
+var box=[2,5,3,8,3,1];//数组
+alert(box.sort());//从小到大排序，返回排序后的数组
+alert(box);//原数组也被逆向排序了，说明是引用
+
+
+
+
+var box=['陈建局',21,'濮阳'];
+var box2=box.concat('计算机编程'); //基于当前数组建立一个新数组。
+alert(box2);
+alert(box);
+
+
+
+
+var box=['陈建局',21,'濮阳','河南','计算机编程'];
+var box2=box.slice(1,3); //从第1个位置取到第3个位置
+alert(box2);			//而不是从第一个位置取3个
+
+
+
+
+var box=['陈建局',21,'濮阳','河南','计算机编程'];
+var box2=box.splice(2,3);	//从第二个位置取三个
+alert(box2);				//而不是从第二个位置取到第三个
+
+
+
+
+var box=['陈建局',21,'濮阳'];
+var box2=box.splice(1,0,'河南','计算机编程');//从第1个插入点插入元素，0表示不删除。
+alert(box2);
+alert(box);
+
+
+
+
+var box=['陈建局',21,'濮阳'];//替换功能
+var box2=box.splice(1,1,100);
+alert(box2);
+alert(box);
+*/

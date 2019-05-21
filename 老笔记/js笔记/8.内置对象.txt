@@ -1,0 +1,100 @@
+//      内置对象
+
+
+
+// 学习要点：1.Global 对象
+// 		     2.Math对象
+//1.Global对象：
+			// 1.URI编码方法：
+			//URI编码可以对链接进行编码，以便发送给浏览器。他们采用特殊的UTF-8
+			//编码替换所有无效字符，从而让浏览器能够理解和接受。
+// var box="//chen陈";
+// alert(encodeURI(box));//  //chen%E9%99%88，只编码了中文
+// alert(encodeURIComponent(box)); // %2F%2Fchen%E9%99%88,特殊字符和中文 编码了
+// var box="//chen陈";
+// var a=encodeURI(box);//
+// var b=encodeURIComponent(box);
+// alert(decodeURI(a));//  //chen陈   解码
+// alert(decodeURIComponent(b));// //chen陈   解码
+//
+// //
+// eval()方法
+// 	eval()方法主要担当一个字符串解析器的作用，他只接受一个参数，
+// 	而这个参数就是要执行的JavaScript代码的字符串。
+	// eval('var box=100');// 解析了字符串代码
+	// alert(box); //100
+	// eval('alert(100)');//100 同上
+	// eval('function box(){return 123}');  //函数也可以
+	// alert(box());  //123
+	//eral（） 方法功能十分强大，但也很危险，使用时需要谨慎，特别是在
+	//用户输入数据的情况下，非常有可能导致程序的安全性，比如代码安全注入等等。
+// 
+// 
+// 
+// Global对象属性
+// Global对象包含了一些属性:undefined 、NaN、Object、Arry、Function等等。
+// alert(Array); //返回构造函数
+//
+//
+//
+// window 对象
+// 之前已经说明，Global没有办法直接访问，而Web浏览器可以使用Window对象来实现——全局访问
+// alert(window.Array);
+//
+//
+//
+//
+// 2.Math对象
+// alert(Math.E);//自然对数的底数，即常量e的值
+// 。。。。。。
+//
+//
+// 最大值and最小值
+// alert(Math.min(2,1,5,3,8,5,7)); //1 最小值
+// alert(Math.max(2,1,5,3,8,5,7)); //8 最大值
+//
+//
+// 舍入方法
+// alert(Math.ceil(23.6));//24  Math.ceil() 执行向上舍入，即它总是将数值向上舍入为最接近的整数
+// alert(Math.floor(23.6));//23  Math.floor()执行向下舍入，
+// alert(Math.round(23.6));//24  标准四舍五入
+//
+//
+//random()方法
+//Math.random（）方法返回介于0-1之间的随机数，不包括0和1。
+//如果想大于这个范围的话,可以套用一下公式：
+//		值=(Math.floor()*总数+第一个值)
+//
+//
+// for (var i = 0; i < 10; i++) {
+// 	document.write(Math.random());
+// 	document.write('<br/>');
+// } //打印0-1间的随机数 and 换行
+//
+//
+// for (var i = 0; i < 10; i++) {
+// 	document.write(Math.floor(Math.random()*10+1));
+// 	document.write('<br/>');    
+// }// 范围1-10的整数随机数
+//我如果想5-10之间，，，10-5+1=6;
+// for (var i = 0; i < 10; i++) {
+// 	document.write(Math.floor(Math.random()*6+5)); //5-10之间
+// 	document.write('<br/>');
+// }
+//
+//
+//可以写个计算函数 ，直接调用，更方便
+// function select(start,end)
+// {
+// 	var total=end-start+1;
+// 	return Math.floor(Math.random()*total+start);
+// }
+
+// for (var i = 0; i <10; i++) {
+// 	document.write(select(5,10)); //范围 5-10;
+// 	document.write('<br/>');
+// }
+// alert(Math.abs(-4));//4
+
+
+

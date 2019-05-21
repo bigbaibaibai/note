@@ -1,0 +1,375 @@
+﻿document对象
+
+一、基础篇
+
+	1.节点的分类
+
+		<div id="box">测试</div>
+
+		（1）元素节点：就是标签，<div></div>
+		（2）文本标签：标签内的文本，测试
+		（3）属性节点：标签的属性，id="box"
+
+	2.查找元素节点（标签）
+
+		查找元素要等到html元素加载完才能获取，所以用到一个函数，表示先加载html元素，最后执行这段JavaScript：
+
+			window.onload=function(){
+				//这里存放当网页加载完毕后在执行的内容。
+			}
+
+		（1）getElementByld();   获取某个ID的元素节点
+			用法：var box=document.getElementById('box');					 
+			参数：为一个ID值，必须是ID
+			返回值：这个节点对象
+			属性：
+				js属性调用：
+				tagName：获取这个元素节点的标签名（大写，例DIV）
+				innerHTML:获取元素节点里的文本，如果标签内部有子标签，会被转化为特殊字符，可以赋值，并可以解析html元素。
+
+				html属性直接调用：
+				id:获取这个元素的id属性的值
+				title:获取这个元素title属性的值
+				style:获取style属性对象 如果需要获取属性值，例box.style.color,获取属性color的值
+				className:获取这个元素节点class属性的值，class关键字被占用，所以改成className
+
+
+		（2）getElementsByTagName();    获取一个同名标签元素节点的节点集合
+			用法：var box=document.getElementByTagName('li');
+			参数：为一个元素名，例'li'
+			返回值：返回一个数组，数组的长度代表有几个元素，如有三个li则长度为3
+			PS：数组中每一个元素相当于一个元素节点对象，可以调用节点元素可调用的一切函数，例innerHTML，典例，寻找body节点，因为这节点只有一个，var box=document.getElementTagName('body')[0];返回了body节点
+
+		（3）getElementsByName('');   获取相同名称的name元素返回一个数组
+
+		（4）对元素节点属性操作的方法：
+			1.getAttribute();      获取某个属性的值
+			用法：var box=document.getElementById('li');
+				box.getAttribute('id');
+			参数：属性名，如ID，style等
+			返回值：返回元素的值
+
+			2.setAttribute();      设置某个属性的值
+			用法：var box=document.getElementById('li');
+				box.setAttribute('title','标题');
+			参数：两个值，第一个是属性名，第二个是属性值
+			ps:如果属性为style或onclick则IE7以下无效果
+
+			1.removeAttribute();      移除某个属性和值
+			用法：var box=document.getElementById('li');
+				box.removeAttribute('id');
+
+	3.节点属性
+
+		在节点上的操作，只在某个节点上操作
+		（1）普通节点属性
+			1.nodeName：获取节点的标签名
+		    2.nodeType：获取节点的类型值，元素节点1，属性节点2，文本节点3
+			3.nodeValue：获取节点的文本内容，文本节点属性节点才会有内容
+		（2）层次节点属性
+			1.childNodes:获取当前元素节点的所有子节点，返回一个数组
+			 返回数组的节点，包括文本节点，元素节点，不会忽略空格，children属性能忽略空格。
+			
+			 练习： 如果box下节点是元素节点，返回元素标签名，如果是文本节点，返回文本内容
+			var box=document.getElementById('box');
+			for(var i=0;i<box.childNodes.length;i++)
+			{
+				if(box.childNodes[i].nodeType==1)
+				{
+					alert('元素节点：'+box.childNodes[i].nodeName);
+				}
+				else if(box.childNodes[i].nodeType==3){
+					alert('文本节点：'+box.childNodes[i].nodeValue);
+				}
+			}
+			2.
+				firstChild：第一个子节点   
+				lastChild：最后一个子节点
+				parentNode：返回父节点
+				nextSibling：返回同级的下一个节点
+				previousSibling：返回同级的上一个节点
+		（3）属性节点
+			属性节点遍历是从后往前遍历的
+			attributes     返回一个数组，获取当前节点的属性集合
+			例：	var box=document.getElementById('box');
+					box.attributes[0].nodeType;    返回最后一个属性节点的类型2
+					box.attributes[0].nodeName;    返回最后一个属性节点d的名称
+					box.attributes['id'].nodeValue;返回id属性的内容
+
+	4.节点操作 *****
+			1.write();   
+				该方法可以把任意字符插入文档中去，但原文档所有内容会被覆盖，用于测试
+				参数：一个字符串
+				用法：document.wtite('123');
+			2.createElement();  
+				创建一个元素节点，仅创建，并未添加，需要配合其他方法
+				参数：一个标签名称
+				用法：var p=document.createElement('p');
+				返回值：返回这个元素节点对象
+			3.appendChild();   
+				把一个新节点添加到一个元素节点子节点列表的末尾
+				参数：一个元素节点对象
+				用法：结合上面的创建使用,如果html里有元素标签div，id为box
+					var box=document.getElementById('box');
+					box.appendChild('p');
+			4.createTextNode();
+				创建一个文本节点，和2.相同
+				参数：一短文本
+				用法：var text=document.creaTextNode('abc');
+				      也用appendChild()方法添加到元素里去。
+			5.insertBefore();
+				在节点前添加同级节点
+				参数：两个参数，第一个参数为所添加的节点，第二个参数为添加节点位于哪个节点之前
+				用法：var box=document.getElementById('box');
+					  var p=document.createElement('p');
+					  box.parentNode.insertBefore(p,box);
+					  ps:因为要添加到节点之前，所以需要获取节点的父节点，再添加。
+			6.replaceChild();
+				替换元素节点，首先要新建一个元素节点，然后替换
+				参数：两个参数，第一个为想要替换成的节点，第二个为目标节点
+				用法：和insertBefore()相似
+					  var box=document.getElementById('box');
+					  var p=document.createElement('p');
+					  box.parentNode.replaceChild(p,box);   
+				ps:要先获取目标节点的父节点，替换后目标节点里的所有子节点都没有了
+			7.cloneNode();
+				克隆一个节点
+				参数：ture:克隆节点时标节点内的子节点  false:只克隆该元素绩节点标签
+				用法：var box=document.getElementById('box');
+					  var clone=box.cloneNode(flase);
+					  再用添加节点方法添加
+					  box.parentNode.appendChild(clone);
+			8.removeChild();
+				删除一个子节点
+				参数：删除的节点
+				用法：var box=document.getElementById('box');
+					  box.parent.removeChild(box);
+
+二、进阶篇
+	1.节点类型
+				   常量名                		说明        nodeType值
+				ELEMENT_NODE		     		元素  			1
+				ATTRIBUTE_NODE		     		属性 			2
+				TEXT_NODE			     		文本 			3
+				CDATA_SECTION_NODE	     		CDATA 			4
+			    ENTITY_REFETENCE_NODE     		实体参考 		5
+			    ENTITY_NODE 					实体 			6
+			    PREOCESSING_INSTRUCETION_NODE	处理指令 		7
+			    COMMENT_NODE					注释			8
+			    DOCUMENT_NODE					文档根			9
+			    DOCUMENT_TYPE_NODE				doctype 		10
+			    DOCUMENT_FRAGMENT_NODE			文档片段		11
+			    NOTATION_NODE					符号			12
+
+	2.Document类型
+	 	是一个根节点，被隐藏了，没有value值，name为#document，type值为9
+	 	
+	 	（1）快速获取
+		 	1.document.body
+		 		快捷的获取body节点便于动态操作
+		 	2.document.title     
+		 		获取title标题
+		 	3.document.URL
+		 		获取当前路径
+		 	4.document.domain
+		 		获取域名，服务器端
+		 	5.document.referrer
+		 		获取上一个URL，服务器端
+		 	对象
+		 	6.document.anchors
+		 		获取文档中带name属性的<a>元素集合，返回数组
+		 	7.document.links
+		 		获取文档中带href属性的<a>元素集合，返回数组
+		 	8.document.forms
+		 		获取文档中<form>元素的集合，返回数组
+		 	9.document.images
+		 		获取文档中<img>元素的集合，返回数组
+	3.Element类型
+		是元素节点类型    NodeType  2
+
+	4.Text类型
+		是文本节点类型    NodeType  3
+		（1）nomalize();
+			合并同一级别的文本节点
+			用法：
+				var box=document.getElementById('box');
+				var text1=createTextNode('abc');				
+				var text2=createTextNode('def');
+				box.appendChaild(text1);
+				box.appendChaild(text2);
+				box.nomalize();      
+					//如果没有这一步，看似box中有一个子节点，但是有两个，合并后1个
+		（2）splitText();
+				分离文本节点
+				用法：
+					var box=document.getElementById('box');
+					box.childNodes[0].splitText(3);   //取前三个字符分离成新节点
+		（3）deleteDate();
+				删除文本部分内容
+				用法：
+					var box=document.getElementById('box');
+					box.chlidNode[0].deleteDate(0,3);   //下标为0删到下标为3之前
+		（4）insertData();
+				添加文本内容
+				用法：
+					var box=document.getElementById('box');
+					box.childNode[0].insertDatee(0,'hello');  //在下标为0 的字符前添加
+		（5）replaceData()
+				替换文本内容
+				用法：
+					var box=document.getElementById('box');
+					box.chlidNode[0].replaceData(0,2,'le');  /下标为0到下标为2之前的替换为le
+		（6）substringData();
+				返回获取文本内容
+				用法：
+					var box=document.getElementById('box');
+					box.childNode[0].substringData(0,3);   直接返回下标0到下标3之前的文本
+	5.呈现模式
+		有两种呈现模式，分别为标准模式和怪异模式，主要看文档声明
+		1.compatMode属性
+			如果是标准模式则返回CSS1Compat，如果为怪异模式为BackCompat
+			用法：document.compatMode;
+		2.scrolllntoView()
+			将指定节点滚动到在可见范围内
+			用法：document.getElementById('box').scrolllntoView();
+		3.children
+			获取这个节点的孩子节点，返回一个数组，和chileNodes相似，不过不会包含空白节点
+			用法：var box=document.getElementById('box');
+				  box.children[];
+		4.contains()方法
+			判断一个节点是不是另一个节点的后代，返回ture或false
+			用法：var box=document.getElementById('box');
+				  var p=box.firstChild;
+				  box.contans(p);
+	6.操作内容
+		1.innerText属性
+			获取文本内容，如果里面有标签直接过滤掉，获取纯文本，并且赋值不会解析HTML标签。
+			火狐不兼容，有同类方法textContent()做兼容即可。不建议使用
+		2.innerHTML属性
+			获取文本，不过滤HTML，获取带有标签的文本，赋值会解析HTML元素
+三、DOM操作表格及样式
+	1.HTML DOM
+		属性或方法                      	说明
+
+		 caption    				保存着<caption>元素的引用
+
+		 tBodies				保存着<tbody>元素的HTMLCollection集合
+
+		 tFoot						保存着对<tfoot>元素的引用
+
+		 tHead						保存着对<thead>元素的引用
+
+		 rows					保存着<tr>元素的HTMLCollection集合
+
+		 createTHead()				创建<thead>元素，并返回引用
+
+		 createTFoot()				创建<tfoot>元素，并返回引用
+
+		 createtCaption()			创建<thead>元素，并返回引用
+
+		 deleteTHead()					删除<thead>元素
+
+		 deleteTFoot()					删除<tfoot>元素
+
+		 deleteCaption()				删除<caption>元素
+
+		 deleteRow(pos)						删除指定行
+
+		 insertRow(pos)				向rows集合中的指定位置插入一行
+
+		 针对tr的属性方法
+
+		 cells					保存着<tr>元素中单元格的HTMLCollection集合
+
+		 deleteCell(pos)				删除指定位置单元格
+
+		 insertCell(pos)		向cells集合的指定位置插入一个单元格，并返回引用
+
+	2.css样式
+		样式属性名，font-size一类的两个单词改变成 fontSize第一个单词首字母大写，
+					float保留字冲突，改名为非IE是cssFloat,IE是styleFloat
+		（1）获取行内样式，用法 box.style.color
+
+		（2）获取默认样式 和所有样式：window.getComputedStyle(box,null);   
+			第一个参数是节点，第二个是尾类比如hover，返回一个样式对象
+			这个方法IE不支持，但有相似对象currentStyle，是一个对象
+			复合型属性不能获取，就是有多个值的属性简写方式，获取的样式不能赋值
+		（3）获取链接式样式，最常用的
+			1.box.className    获取class   class可以叠加
+			2.节点内是否已存在这个class
+				function hasClass(element,className){
+					return(!!element.className.match(new RegExp('(\\s|^)'+classname)+'(\\s|$)')));
+				}
+			3.添加class
+				function addClass(element,className){
+					if(!hasClass(element))
+					element.className+=' '+className;
+				}
+			4.删除class
+				function removeClass(element,className){
+					if(!hasClass(element))
+					element.className=element.className.replace(new RegExp('(\\s|^)'+classname)+'(\\s|$)'),' ')
+				}
+	3.link样式表
+		（1）.document.implementation.hasfeature('styleSheets','2.0');
+			返回ture或false，浏览器是否支持层叠样式表，链接式，内联式
+		（2）.获取层叠样式表
+			1.原始模式：
+			var link=document.getElementByTagName('link')[0];  获取第一个link标签的节点
+			var sheet=link.sheet;      获取链接的层叠样式表的对象   IE不兼容但提供一个类似的styleSheet
+			兼容模式  var sheet=link.sheet||link.sstyleSheet;
+			2.简单模式：
+			var sheet=document.styleSheets[0];      返回全部样式表数组
+			3.属性表：
+				属性或方法									说明
+				disabled							获取样式表是否被禁用
+				 href						如果是用过link包含的，则样式表为URL，否则为null
+				 media								样式表支持的所有媒体类型的集合
+				title 									获取title的值
+				type 								   样式表类型字符串
+	IE不支持	*cssRules[]				样式表包含样式规则的集合， 每组样式集合，class或者ID等
+				       					cssRules返回一个数组，属性有：
+				       						sheet.cssRules.cssText    		获取css文本
+				       						sheet.cssRules.selectorText  	获取选择符，例#box
+				       					****sheet.cssRules.style            获取和设置样式
+				       						sheet.cssRules.style.color='red';	
+	IE不支持	*deleteRule(0)					删除一条样式规则   参数是规则的下标,
+	IE不支持	*insertRule('',0)		插入一条样式规则，第一个参数为样式，例body{color:red;}第二个为下标
+
+									IE
+	IE方法替代：		*cssRules[]	  			rules[]
+				*deleteRule(0) 			removeRule(0)
+				*insertRule('',0)		addRule('body','color:red',0)
+四、dom元素尺寸和位置
+	1.计算出元素的实际大小，一般获取块级大小
+		（1）clientWidth,clientHeight 
+			没有显示单位，但固定单位px，数据类型是number，计算不包括边框，外边距，减去滚动条和加上内边距
+		（2）scrollWidth,scrollHeight
+			IE高度计算为内容有效高度（例，文本高度）
+			增加边框，五款浏览器有三种结果比较危险
+			增加内边距，IE高度是增加内边距基础上的有效高度，其他一致无差错，外边距无变化
+			增加滚动条，IE高度是有效，其他一致，减去滚动条
+	   *（3）offsetWidth,offsetHeight
+	   		比较稳定好用，返回元素实际大小，包括边框、内边距，外边距滚动条无变化
+	2.计算周边元素尺寸
+		（1）clientTop,clientLeft
+			获取上边框长度，获取左边框长度，少用
+		（2）offstLeft,offstTop,offstParent
+			获取当前元素相对于父元素的位置，一般和css的postion定位结合使用，不然会危险
+			offstparent是获取节点的父元素，父元素如果不是body一定要用上定位（父元素定位）
+		（3）scrollTop,scrollLeft
+			获取或设置滚动条默认位置
+		（4）getBoundingClientRect()
+		返回一个矩形对象，有四个属性left、top、right、buttom，分别是四条边离页面边的距离
+
+
+
+
+
+
+
+
+
+
+
+

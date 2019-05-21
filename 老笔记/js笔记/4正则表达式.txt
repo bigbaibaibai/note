@@ -1,0 +1,367 @@
+**********************正则表达式
+
+
+// RegExp 对象表示正则表达式，它是对字符串执行模式匹配的强大工具。
+var box=new RegExp('box');//第一个参数是模式字符串
+alert(box);// /Box/ 两个反斜杠是正则表达式的字面量表示法
+
+
+var box=/box/;
+alert(box);
+
+
+//test() 方法用于检测一个字符串是否匹配某个模式.
+//	检索字符串中指定的值。返回 true 或 false。
+var pattern =new RegExp('Box');       //模式
+var str='box'; 							//字符串
+alert(pattern.test(str));				//返回的是false，大小写不一致。
+
+
+
+var pattern =new RegExp('Box','i'); //不区分大小写
+var str='box'; 							
+alert(pattern.test(str)); //true
+
+
+
+alert(/Box/i.test('box')); //true
+
+
+
+
+var str1='box';
+var str2='box';
+alert(str1==str2);     //字符串的匹配比较方式
+
+
+var pattern=/Box/i;   //不区分大小写匹配
+var str='this is a box'; //一句英文
+alert(pattern.test(str));   //true  
+							//This is a box 中是否包含不区分大小写的Box；
+
+
+
+//exec() 方法用于检索字符串中的正则表达式的匹配。
+//	检索字符串中指定的值。返回找到的值，并确定其位置。
+
+
+var pattern=/Box/i;
+var str='box';
+alert(typeof pattern.exec(str)); //返回的是数组，有就返回数组的值，没有就返回null
+
+
+var pattern=/Box/i;
+var str='aaaa';
+alert(typeof pattern.exec(str)); //如果没有匹配到就返回null
+
+
+
+*/
+//JavaScript String 对象
+//**********match() 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配。
+//该方法类似 indexOf() 和 lastIndexOf()，但是它返回指定的值，而不是字符串的位置。
+/*
+
+var apttern=/box/ig; //	全局搜索
+var str='this is a Box that is a box';
+alert(str.match(apttern)); // Box,box  检索指定的值
+
+
+
+var apttern=/box/i; //	没有开启全局搜索
+var str='this is a Box that is a box';
+alert(str.match(apttern));        //  Box ，匹配到第一个字符串返回数组 
+
+
+var apttern=/box/ig; //	没有开启全局搜索
+var str='this is a Box that is a box';
+var a=str.match(apttern);
+alert(a[0]);    //Box 证明了是数组
+alert(a[1]);	//box 
+
+
+//************search() 方法用于检索字符串中指定的子字符串，或检索与正则表达式相匹配的子字符串。
+var pattorn =/Box/i;
+var str='this is a Box ,that is a box';
+alert(str.search(pattorn)); //10 返回的第一个匹配的位置
+							//查找到即返回，也就是说无需全局g
+
+
+var pattorn =/Xox/i;
+var str='this is a Box ,that is a box';
+alert(str.search(pattorn));//-1    找不到匹配返回-1.
+
+
+
+//*************replace() 方法用于在字符串中用一些字符替换另一些字符，或替换一个与正则表达式匹配的子串。
+
+
+
+var apttern=/box/ig; //	全局搜索
+var str='this is a Box that is a box';
+alert(str.replace(apttern,'book')); //this is book that is boook,将box替换成了book
+
+
+
+
+//**********split() 方法用于把一个字符串分割成字符串数组。
+
+
+
+var apttern=/!/ig; //	全局搜索
+var str='this is a Box! that is a box!';
+alert(str.split(apttern));//拆分后：this is a Box, that is a box,
+alert(str.split(apttern).length);//数组长度：3
+
+
+//使用实例属性
+var pattern=/google/ig;
+alert(pattern.global); 	//true 是否全局了
+alert(pattern.ignoreCase);//true 是否忽略大小写
+alert(pattern.multiline);//false 是否支持换行
+
+//lastIndex 属性用于规定下次匹配的起始位置。
+alert(pattern.lastIndex);// 0,下次匹配的位置
+alert(pattern.source);// google 正则表达式的源字符串
+
+
+var pattern=new RegExp('gle','g');
+str='google google google'
+pattern.test(str);
+alert(pattern.lastIndex);//6
+pattern.test(str); 
+alert(pattern.lastIndex);  //13
+pattern.lastlndex=100;
+alert(pattern.lastIndex)	//100
+
+
+
+*/
+	//  . 查找单个字符，除了换行和行结束符。
+
+var pattern=/go\sgle/ig; //\s 表示空格匹配
+var str='go gle';
+alert(pattern.test(str)); //true
+
+
+var pattern=/google\b/ig; //\b 表示到达边界
+var str='googleoooo';
+alert(pattern.test(str));// false
+
+var pattern=/google|bing|baidu/; // |表示匹配或选择模式
+var str='google';		//匹配概念不是相等
+alert(pattern.test(str));// true
+
+
+
+var pattern=/google{4,8}$/;// 表示e的4-8次
+var str='googleeeeeee';
+alert(pattern.test(str));//true
+
+
+
+var pattern=/(google){4,8}$/;// 分组，可以看着一个字符 表示google的4-8次
+var str='googlegooglegooglegooglegoogle';
+alert(pattern.test(str));//true
+
+
+var pattern=/8(.*)8/;//(.*)匹配google
+var str='this is 8google8';
+pattern.test(str);
+alert(RegExp.$1); // google
+//RegExp.$1 表示获取模式中的第一个分组对应的匹配字符串
+
+
+
+
+var pattern=/8(.*)8/;//(.*)匹配了google
+var str='this is 8google8';
+document.write(str.replace(pattern,'<strong>$1</strong>'));//this is google
+//$1表示分组获取字符串匹配到的内容
+
+
+var pattern=/(.*)\s(.*)/;
+var str='baidu google';
+document.write(str.replace(pattern,'<strong>$2,$1</strong>'));//google,baidu
+
+
+
+
+var pattern=/[a-z]+/; //这里使用了贪婪模式
+var str='abdbad';
+document.write(str.replace(pattern,'x'));//x
+//所有的字符串变成了x
+
+
+
+
+
+var pattern=/[a-z]+?/; //这里使用了惰性模式
+var str='abdbad';
+document.write(str.replace(pattern,'x'));//xbdbad
+//只有第一个字符变成了x
+
+
+var pattern=/[a-z]+?/g; //这里使用了惰性模式+全局
+var str='abdbad';
+document.write(str.replace(pattern,'x'));//xxxxxx
+//每一个字符都变成了x
+
+
+
+
+var pattern=/8(.*)8/;     //使用了贪婪
+var str='8google8 8google8 8google8';//匹配到了google8 8google8 8google
+document.write(str.replace(pattern,'<strong>$1</strong>'));
+//结果：google8 8google8 8google
+
+
+
+var pattern=/8(.*?)8/g;     //开启了惰性模式 开启了全局
+var str='8google8 8google8 8google8';//匹配到了google8 8google8 8google
+document.write(str.replace(pattern,'<strong>$1</strong>'));
+//结果：google google google
+
+var pattern=/8([^8]*)8/g;     //另一种惰性 屏蔽了8的匹配 也就是两边包含字符 开启了全局
+var str='8google8 8google8 8google8';
+document.write(str.replace(pattern,'<strong>$1</strong>'));
+//结果：google google google
+
+
+
+
+
+var pattern=/^[a-z]+\s[0-9]{4}$/;//^[a-z] 匹配一小写字母开头的字符串返回一个包含字符串的数组
+var str='google 2018';
+alert(pattern.exec(str)); //google 2018
+
+
+
+var pattern=/^([a-z]+)\s([0-9]{4})$/;//^[a-z] 匹配一小写字母开头的字符串返回一个包含字符串的数组
+var str='google 2018';
+var a=pattern.exec(str);
+alert(a[0]);  //返回匹配到的整个字符串
+alert(a[1]);//返回匹配到的第一个字符串
+alert(a[2]);//返回匹配到的第二个字符串
+
+
+
+var pattern=/(\d+)([a-z])/; //这个叫做 捕获性分组，所有的分组都捕获返回。
+var str='123abc';
+var a=pattern.exec(str);
+alert(a[0]);  //返回123a
+alert(a[1]);  //返回123
+alert(a[2]);  //返回123
+
+
+
+
+var pattern=/(\d+)(?:[a-z])/; //非捕获性分组，只要在不需要捕获返回的分组上加上?:
+var str='123abc';
+var a=pattern.exec(str);
+alert(a[0]);  //返回123a
+alert(a[1]);  //返回123
+alert(a[2]);  //undefined 不捕获
+
+
+
+var pattern=/a?(b?(c?))/;
+var str='abc';
+alert(pattern.exec(str));//abc,bc,c
+var a=pattern.exec(str);
+alert(a[0]);    //abc
+alert(a[1]);    //bc
+alert(a[2]);	//c
+
+
+
+var pattern=/goo(?=gle)/; //后面必须是gle才能返回goo 
+var str='google';
+alert(pattern.exec(str)); //返回goo 而不是googl 这是前瞻性捕获
+
+
+var pattern=/\[/; //这是\符号来转义正则里的特殊符号，才能匹配
+var str='[';
+alert(pattern.exec(str)); //[
+
+
+
+var pattern=/^\d+/gm;//开启了首匹配 ，并且开启了换行模式
+var str='1.baidu\n2.google\n3.bing';
+alert(str.replace(pattern,'*'));
+//	*.baidu
+//	*.google
+//	*.bing
+
+
+//************判断邮政编码
+var pattern=/[1-9][0-9]{5}/;
+var str='222000';           //必须是6位，必须是数字，第一位不能为0；
+alert(pattern.test(str)); //true
+
+
+//*********检查文件压缩包
+
+//\w 元字符用于查找单词字符。
+var pattern=/^[/w]+\.(zip|gz|rar|)$/;//文件名+扩展名
+// .用\转义 ,\w+ 必须是一位或多位 ，
+//^用来限定首字母开始匹配。
+var str='231.zip';   //文件名：字母_数字 .zip .gz.rar.7z
+alert(pattern.test(str));//true
+
+//\w 元字符用于查找单词字符。
+var pattern=/^[/w]+\.(zip|gz|rar|)$/;//文件名+扩展名
+//|选择符必须用分组符号包含起来
+// .用\转义 ,\w+ 必须是一位或多位 ，
+//^用来限定首字母开始匹配。
+var str='231.zip';   //文件名：字母_数字 .zip .gz.rar.7z
+alert(pattern.test(str));//true
+
+//删除多余空格
+var pattern=/\s/g;// /s查找空白字符
+var str='11 22 3 4 5';
+alert(str.replace(pattern,''));//1122345
+
+
+//删除行首行尾 空格
+
+var pattern=/^\s+(.+?)\s+$/;   //(.+?)是贪婪模式，$匹配结尾
+var str='  goo gle ';
+alert(pattern.exec(str)[1]);//goo gle
+
+
+
+//使用分组删除行首行尾 空格
+var pattern=/^\s+(.+?)\s+$/;   //(.+?)是贪婪模式，$匹配结尾
+var str='  goo gle ';
+var a=str.replace(pattern,'$1');
+// RegExp.$1是RegExp的一个属性,
+//指的是与正则表达式匹配的第一个 子匹配(以括号为标志)字符串,
+alert(a);//goo gle
+
+
+
+//***************简单的电子邮件验证 
+var pattern=/(^[\w\.\-]+)@([\w\-]+)\.([a-zA-Z]){2,4}$/;
+var str='2456779921@qq.com';
+alert(pattern.test(str)); //true
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,102 @@
+1.构造函数无限个参数
+	构造函数(String...strs)   可以传入无限个Srting类型参数，被存入strs，strs是一个数组
+
+
+2.instanceof
+	对象 instanceof 类名  //判断一个对象是否属于一个类的实例
+	例 if(p1 instanceof man)    //返回布尔类型
+
+
+3.Juit 
+	单元测试类，用来测试执行一个类，无需用main函数
+	添加方法：
+		右键一个工程->构造路径->添加库->JUnit
+	用法：需要导包，在类中添加无返回值无参构造函数
+		@Test
+		public void test1() {
+			System.out.println("123");
+		}
+		双击方法名，右键，运行 JUnit测试
+
+4.数据类型，字符串相互转换
+	数据类型转字符串，String str=String.valueOf(基本数据类型)
+	字符串转基本数据类型，基本数据类型对应的包装类.parse包装类(str)；
+				int a=Integer.paseInteger(str);
+5.extends  继承
+6.final  最终
+7.abstract  抽象
+8.implements  接口实现   接口定义interface
+
+9.实现接口或继承基类的匿名类匿名对象
+	new Product(){
+		dhsahfkjdashfkl;
+	};
+匿名类的匿名对象	
+	new Object() {
+			public void show() {
+				System.out.println("我是匿名类匿名对象");
+			}
+		}.show();
+
+10.常见的异常
+	1.数组下标越界   ArrayIndexOutOfBoundsException
+	2.算数异常   ArithmeticException
+	3.类型转换异常   ClassCastException
+	4.空指针异常    NullPointerException
+	5.数据格式化错误 NumberFormatException e
+11.异常处理
+ try{ }catch(...e){e.getMessage }finally{ }   catch可以有一个或多个
+12.集合
+
+TreeSet对象排序接口：Comparable（自然排序接口，类实现这个接口）  Comparator（定制排序接口，类无需实现，在TreeSet声明对象时构造器传入接口实现类的对象做参数即可）
+
+遍历查找效率：数组>链表>哈希表
+插入删除：哈希表>链表>数组
+
+Collection接口-基础接口
+
+	|---List接口-有序，可放置重复元素，添加很多自己的方法，方便有序使用
+
+		|---ArrayList实现类(主要实现类)查询方便，底层数组实现，储存有序，输出有序，遍历查找贼快，插入删除贼麻烦
+
+		|---LinkedList实现类-链表式，适用于频繁插入和删除，储存无序，输出有序
+
+	|---set接口-无序，不可放置重复元素，保证元素唯一性，大多数用的是collection接口的方法，储存顺序按哈希值
+
+		|---HashSet实现类-输出时按储存顺序输出，插入添加贼快
+
+		|---LinkedHashSet实现类-输出时按添加顺序，但插入添加慢于HashSet，遍历查找快一些
+
+		|---TreeSet实现类- 实现排序  1.存储对象的类实现接口Comparable（自然排序接口）或加载接口Comparator（定制排序接口）的对象才能使用。
+				             2.只能储存一个类型的对象。
+					     3.排序可以自己设置，但是麻烦。
+
+Map接口-键值对接口
+	
+	|--HashMap类-存储顺序按哈希值，输出时按存储顺序，为Map主要类，插入添加快
+
+	|--LinkedMap类-存储顺序按哈希值，输出时有序，遍历查找方便，插入删除不便
+
+	|--TreeMap类-存储按哈希值，键列拥有TreeSet的特点，可以按照键的特定属性排序，排序可以自己设置，但是麻烦。
+	
+	|--Properties类-储存属性文件
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+		

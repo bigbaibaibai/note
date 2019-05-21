@@ -1,0 +1,73 @@
+一、cookie
+	cookie文件有个数限制一般不超过30个，大小在2.5m以内
+	1.原始添加cookie
+		document.cookie='user=lee';
+		document.cookie='url=yc60.com';
+		document.cookie='email=yc60.com@gmail.com';
+	添加一个cookie文件夹，里面有三个cookie文件，文件名称为user,url,email,内容为它们的值
+	cookie文件夹只有在域名下的时候才会有值，中文字符一般需要3编码解码器。
+	2.cookie属性
+
+		document.cookie='user='+值+';[expires=失效时间;path=路径访问;domain=域名访问;secure=安全的https限制通信]'+值
+
+		设置cookie属性
+		例：
+				var date= new Date();
+				date.setDate((date.getDate()+7));
+				document.cookie='user='+encodeURIComponent('李炎恢')+';exoires='+date;
+				alert(decodeURIComponent(document.cookie));
+	3.编码解码器
+		encodeURIComponent编码器
+			encodeURIComponent('李炎恢')    把中文字符转化成计算机可读取的编码
+		decodeURIComponent解码器
+			decodeURIComponent(document.cookie)    把计算机可读取的编码转换成中文字符
+	4.操作cookie文件
+			（1）sessionStorage
+				方法模式：
+					sessionStorage.setltem('name','Lee');   设置或添加cookie文件
+					sessionStorage.getltem('name');     获取name文件的内容
+				属性模式
+					sessionStorage.name='lee';     设置或添加cookie文件
+					sessionStorage.name;             获取name文件的内容
+
+				sessionStorage.removeltem('name');   删除name文件
+			（2）localStorage
+				所有功能同上
+
+			区别
+			•localStorage - 没有时间限制的数据存储
+			•sessionStorage - 针对一个 session 的数据存储
+                                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

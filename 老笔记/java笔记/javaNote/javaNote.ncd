@@ -1,0 +1,269 @@
+<!DOCTYPE NoteCase-File>
+<!--LastNote:6-->
+<HTML>
+<HEAD>
+<meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+<meta name="generator" content="NoteCase 1.9.8">
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+<DL>
+<DT>java</DT>
+<!--property:date_created=1528880988-->
+<!--property:date_modified=1528880988-->
+<!--property:expanded-->
+<DD>
+<DL>
+<DT>JDBC</DT>
+<!--property:date_created=1528880999-->
+<!--property:date_modified=1528880999-->
+<!--property:expanded-->
+<DD>
+<DL>
+<DT>TestDriver</DT>
+<!--property:date_created=1528881022-->
+<!--property:date_modified=1528982006-->
+<DD>
+<span style="color:#0000ff">package com.jdbc.driver;<BR>
+<BR>
+import java.io.InputStream;<BR>
+import java.sql.Connection;<BR>
+import java.sql.ResultSet;<BR>
+import java.sql.SQLException;<BR>
+import java.sql.Statement;<BR>
+import java.util.Properties;<BR>
+<BR>
+import org.junit.Test;<BR>
+<BR>
+import com.mysql.jdbc.Driver;<BR>
+</span><BR>
+//老版获取数据库服务接口  Driver<BR>
+<BR>
+<span style="color:#0000ff">public class TestDriver {</span><BR>
+	<span style="color:#0000ff">@Test</span> // 不通用，Mysql连接<BR>
+	<span style="color:#0000ff">public void test1() throws SQLException {</span><BR>
+		<span style="color:#0000ff">Driver driver = new com.mysql.jdbc.Driver();</span> <span style="background-color:#90ee90">// 创建数据库服务</span><BR>
+		<span style="background-color:#90ee90">// 创建一个url</span><BR>
+		<span style="color:#0000ff">String url = &quot;jdbc:mysql://localhost:3306/test&quot;;      //</span><span style="background-color:#ffff00">jdbc:mysql://localhost:3306/test   url格式</span><BR>
+		<span style="background-color:#90ee90">// Properties的对象表示一个持久的属性集</span><BR>
+	<span style="color:#0000ff">	Properties info = new Properties();</span><BR>
+		<span style="color:#8b6914">// 添加属性user为root</span><BR>
+		<span style="color:#0000ff">info.put(&quot;user&quot;, &quot;root&quot;);</span><BR>
+		<span style="color:#8b6914">// 添加属性password为123456</span><BR>
+		<span style="color:#0000ff">info.put(&quot;password&quot;, &quot;123456&quot;);</span><BR>
+<BR>
+		<span style="color:#8b6914">// 创建数据库连接</span><BR>
+	<span style="color:#0000ff">	Connection connection = driver.connect(url, info);</span><BR>
+		<span style="color:#8b6914">// 创建sql语句对象</span><BR>
+	<span style="color:#0000ff">	Statement statement = connection.createStatement();</span><BR>
+		<span style="color:#8b6914">// 创建一次sql语句的记录集</span><BR>
+		<span style="color:#0000ff">ResultSet resultSet = statement.executeQuery(&quot;select user_name,age from imooc_goddess&quot;);</span><BR>
+		<span style="color:#0000ff">while (resultSet.next()) {</span><span style="color:#8b6914">// 如果有下一条记录返回true，并把光标移到下一条记录（从第一条记录的上面开始）</span><BR>
+			<span style="color:#8b6914">// 获取指定字段名的属性值并打印</span><BR>
+			<span style="color:#0000ff">System.out.println(resultSet.getString(&quot;user_name&quot;) + &quot;  &quot; + resultSet.getString(&quot;age&quot;));</span><BR>
+		}<BR>
+<BR>
+	}<BR>
+<BR>
+	<span style="color:#0000ff">@Test</span><span style="color:#8b6914"> // 通用，所有厂商都能用，传入url即可</span><BR>
+	<span style="color:#0000ff">public void test2() throws Exception {</span><BR>
+		<span style="color:#0000ff">Connection connection = getConnection(&quot;jdbc.properties&quot;);</span><BR>
+		<span style="color:#0000ff">Statement statement = connection.createStatement();</span><BR>
+		<span style="color:#8b6914">// 创建一次sql语句的记录集</span><BR>
+		<span style="color:#0000ff">ResultSet resultSet = statement.executeQuery(&quot;select user_name,age from imooc_goddess&quot;);</span><BR>
+		<span style="color:#0000ff">while (resultSet.next()) {</span><span style="color:#8b6914">// 如果有下一条记录返回true，并把光标移到下一条记录（从第一条记录的上面开始）</span><BR>
+		<span style="color:#8b6914">	// 获取指定字段名的属性值并打印</span><BR>
+			<span style="color:#0000ff">System.out.println(resultSet.getString(&quot;user_name&quot;) + &quot;  &quot; + resultSet.getString(&quot;age&quot;));</span><BR>
+		}<BR>
+	}<BR>
+<BR>
+<span style="color:#8b6914">	// 写一个方法，直接传入properties文件就返回一个Coennction的对象</span><BR>
+	<span style="color:#0000ff">public Connection getConnection(String propertiesUrl) throws Exception {</span><BR>
+<BR>
+		<span style="color:#0000ff">String driverClass = null; </span><span style="color:#8b6914">// 声明厂商所提供的数据库类</span><BR>
+		<span style="color:#0000ff">String url = null;</span> <span style="color:#8b6914">// 声明数据库的url</span><BR>
+		<span style="color:#0000ff">String user = null; </span><span style="color:#8b6914">// 声明数据库登录用户名</span><BR>
+		<span style="color:#0000ff">String password = null;</span><span style="color:#8b6914"> // 声明数据库登录密码</span><BR>
+<BR>
+		<span style="color:#8b6914">// 读取这个 properties文件 相对路径从当前src下开始找</span><BR>
+<span style="color:#0000ff">		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertiesUrl);</span><BR>
+	<span style="color:#8b6914">	// 读取这个 properties文件 相 对路径从当前工程下的找</span><BR>
+	<span style="color:#8b6914">	// InputStream inputStream=new BufferedInputStream(new FileInputStream(new<BR>
+		// File(propertiesUrl)));</span><BR>
+<span style="color:#0000ff">		Properties properties = new Properties();</span><BR>
+	<span style="color:#0000ff">	properties.load(inputStream); </span><span style="color:#8b6914">// 把属性列表加载进去</span><BR>
+	<span style="color:#8b6914">	// 获取属性列表中的值</span><BR>
+	<span style="color:#0000ff">	driverClass = properties.getProperty(&quot;driver&quot;);</span><BR>
+<span style="color:#0000ff">		url = properties.getProperty(&quot;jdbcUrl&quot;);<BR>
+		user = properties.getProperty(&quot;user&quot;);<BR>
+		password = properties.getProperty(&quot;password&quot;);<BR>
+</span><BR>
+	<span style="color:#8b6914">	// 动态创建这个数据库厂商提供类的对象</span><BR>
+<span style="color:#0000ff">		Driver driver = (Driver) Class.forName(driverClass).newInstance(); <BR>
+		Properties info = new Properties();</span><BR>
+<span style="color:#8b6914">		// 添加属性user为root</span><BR>
+	<span style="color:#0000ff">	info.put(&quot;user&quot;, user); </span><span style="color:#8b6914">// put一个用户名的键值对<BR>
+		// 添加属性password为123456</span><BR>
+	<span style="color:#0000ff">	info.put(&quot;password&quot;, password);</span> <span style="color:#8b6914">// put一个密码的键值对</span><BR>
+<span style="color:#0000ff">		return driver.connect(url, info);</span> <span style="color:#8b6914">// 返回这个数据库服务的一个连接</span><BR>
+	}<BR>
+<BR>
+}<BR>
+
+</DD>
+<DT>TestDriverManager</DT>
+<!--property:date_created=1528982022-->
+<!--property:date_modified=1528982051-->
+<DD>
+<span style="color:#0000ff">package com.jdbc.driver;<BR>
+<BR>
+import java.io.InputStream;<BR>
+import java.sql.Connection;<BR>
+import java.sql.DriverManager;<BR>
+import java.sql.ResultSet;<BR>
+import java.sql.Statement;<BR>
+import java.util.Properties;<BR>
+<BR>
+import org.junit.Test;</span><BR>
+<BR>
+<span style="color:#8b6914">//DriverManager接口：Driver的子接口，主要用于管理一组 JDBC 驱动程序的基本服务。用于加载驱动程序</span><BR>
+<span style="color:#0000ff"><BR>
+public class TestDriverManager {<BR>
+	@Test<BR>
+	public void test() throws Exception {<BR>
+		Connection connection = getConnection(&quot;jdbc.properties&quot;);<BR>
+		Statement statement = connection.createStatement();</span><BR>
+		<span style="color:#8b6914">// 创建一次sql语句的记录集</span><BR>
+	<span style="color:#0000ff">	ResultSet resultSet = statement.executeQuery(&quot;select user_name,age from imooc_goddess&quot;);<BR>
+		while (resultSet.next()) </span>{<span style="color:#8b6914">// 如果有下一条记录返回true，并把光标移到下一条记录（从第一条记录的上面开始）</span><BR>
+			<span style="color:#8b6914">// 获取指定字段名的属性值并打印</span><BR>
+<span style="color:#0000ff">			System.out.println(resultSet.getString(&quot;user_name&quot;) + &quot;  &quot; + resultSet.getString(&quot;age&quot;));<BR>
+		}<BR>
+	}<BR>
+</span><BR>
+<span style="color:#0000ff">	public Connection getConnection(String propertiesUrl) throws Exception {</span><BR>
+		<span style="color:#8b6914">// 1.连接字符串必要的四个字符串类型</span><BR>
+	<span style="color:#0000ff">	String driverClass = null;</span> <span style="color:#8b6914">// 声明厂商所提供的数据库驱动类的类名</span><BR>
+	<span style="color:#0000ff">	String url = null; </span><span style="color:#8b6914">// 声明数据库的url</span><BR>
+		<span style="color:#0000ff">String user = null; </span><span style="color:#8b6914">// 声明数据库登录用户名</span><BR>
+		<span style="color:#0000ff">String password = null; </span><span style="color:#8b6914">// 声明数据库登录密码</span><BR>
+<BR>
+		<span style="color:#8b6914">// 2.读取这个 properties文件 相对路径从当前src下开始找 不是特别好</span><BR>
+<span style="color:#0000ff">		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertiesUrl);</span><BR>
+<BR>
+		<span style="color:#8b6914">// 3.获取属性列表中的值</span><BR>
+		<span style="color:#0000ff">Properties properties = new Properties();</span><BR>
+	<span style="color:#0000ff">	properties.load(inputStream);</span> <span style="color:#8b6914">// 把属性列表加载进去</span><BR>
+<span style="color:#0000ff">		driverClass = properties.getProperty(&quot;driver&quot;);<BR>
+		url = properties.getProperty(&quot;jdbcUrl&quot;);<BR>
+		user = properties.getProperty(&quot;user&quot;);<BR>
+		password = properties.getProperty(&quot;password&quot;);</span><BR>
+<BR>
+		<span style="color:#8b6914">// 4.加载这个数据库厂商的驱动类</span><BR>
+	<span style="color:#0000ff">	Class.forName(driverClass).newInstance();</span><BR>
+<BR>
+		<span style="color:#0000ff">return DriverManager.getConnection(url, user, password);</span> <span style="color:#8b6914">// 自动从已加载的数据库驱动中获取适当的数据库驱动</span><BR>
+<span style="color:#0000ff">	}<BR>
+}<BR>
+</span>
+</DD>
+<DT>TestStatement</DT>
+<!--property:date_created=1528982419-->
+<!--property:date_modified=1528982559-->
+<DD>
+<span style="color:#0000ff">package com.jdbc.driver;<BR>
+<BR>
+import java.sql.Connection;<BR>
+import java.sql.Statement;<BR>
+<BR>
+import org.junit.Test;</span><BR>
+<BR>
+<span style="color:#8b6914">//Statement接口：用于执行静态 SQL </span><span style="color:#0000ff"><BR>
+</span><span style="color:#8b6914">//执行增删改或其他无返回值的SQL语句用executeUpdate(String sql)   <BR>
+//执行有返回值语句用executeQuery(String sql)，用ResultSet接口对象来接收。</span><span style="color:#0000ff"><BR>
+public class TestStatement {<BR>
+	@Test<BR>
+	public void test1() throws Exception {<BR>
+		</span><span style="color:#8b6914">// 1.获取数据库连接</span><span style="color:#0000ff"><BR>
+		Connection connection = new TestDriverManager().getConnection(&quot;jdbc.properties&quot;);<BR>
+		</span><span style="color:#8b6914">// 2.准备插入的SQL语句</span><span style="color:#0000ff"><BR>
+		String sql = &quot;INSERT INTO customers (`NAME`,email,BIRTH) &quot;<BR>
+				+ &quot;VALUE('大黄','12324@qwe.com','2044-5-13'),('小明','5432f@ge.com','1234-8-26');&quot;;<BR>
+</span><span style="color:#8b6914">		// 3.执行插入<BR>
+		// (1.获取操作SQL语句的Sataement对象：调用connection对象的createStatement对象获取</span><span style="color:#0000ff"><BR>
+		Statement statement = connection.createStatement();<BR>
+	</span><span style="color:#8b6914">	// (2.调用fStatement对象的executeUpdate(sql)执行SQL语句进行插入</span><span style="color:#0000ff"><BR>
+		statement.executeUpdate(sql);<BR>
+	</span><span style="color:#8b6914">	// 4.关闭Statement对象</span><span style="color:#0000ff"><BR>
+		statement.close();<BR>
+		</span><span style="color:#8b6914">// 5.关闭连接</span><span style="color:#0000ff"><BR>
+		connection.close();<BR>
+	}<BR>
+}<BR>
+</span>
+</DD>
+<DT>jdbc.properties</DT>
+<!--property:date_created=1528982336-->
+<!--property:date_modified=1528982360-->
+<DD>
+driver=<span style="color:#0000ff">com.mysql.jdbc.Driver</span><BR>
+jdbcUrl=<span style="color:#0000ff">jdbc:mysql://localhost:3306/test</span><BR>
+user=<span style="color:#0000ff">root</span><BR>
+password=<span style="color:#0000ff">123456</span>
+</DD>
+<DT>TestFristJDBC</DT>
+<!--property:date_created=1528982664-->
+<!--property:date_modified=1528982678-->
+<DD>
+<span style="color:#0000ff">package com.jdbc.driver;</span><BR>
+<span style="color:#8b6914">/*<BR>
+ * 1.DriverManager接口：Driver的子接口，主要用于管理一组 JDBC 驱动程序的基本服务。用于加载驱动程序<BR>
+ * 2.Connection接口：与特定数据库的连接（会话）。能够提供信息描述其表、所支持的 SQL 语法、存储过程和此连接的功能等。<BR>
+ * 3.Statement接口：用于执行静态 SQL 语句并返回它所生成结果的对象，用ResultSet接口对象来接收。<BR>
+ * 4.ResultSet接口：表示数据库结果集的数据表，通常通过执行查询数据库的语句生成。<BR>
+ */</span><BR>
+<BR>
+<span style="color:#0000ff">import java.sql.Connection;<BR>
+import java.sql.DriverManager;<BR>
+import java.sql.ResultSet;<BR>
+import java.sql.SQLException;<BR>
+import java.sql.Statement;<BR>
+<BR>
+import org.junit.Test;<BR>
+<BR>
+public class TestJDBC { </span><span style="color:#8b6914">// jdbc:数据库类型://地址:端口/数据库名</span><span style="color:#0000ff"><BR>
+<BR>
+	private static final String URL = &quot;jdbc:mysql://localhost:3306/test&quot;;<BR>
+	private static final String NAME = &quot;root&quot;;<BR>
+	private static final String PASSWERD = &quot;123456&quot;;<BR>
+<BR>
+	@Test<BR>
+	public void test1() throws ClassNotFoundException, SQLException {<BR>
+	</span><span style="color:#8b6914">	// 1.通过反射动态获取数据库驱动的类，实现加载驱动程序</span><span style="color:#0000ff"><BR>
+		Class.forName(&quot;com.mysql.jdbc.Driver&quot;);<BR>
+	</span><span style="color:#8b6914">	// 2.获取数据库连接 传入数据库路径，用户名和密码 ，连接数据库</span><span style="color:#0000ff"><BR>
+		Connection conn = DriverManager.getConnection(URL, NAME, PASSWERD);<BR>
+</span><span style="color:#8b6914">		// 3.操作数据库，实现增删改查，建立会话</span><span style="color:#0000ff"><BR>
+		Statement statement = conn.createStatement();<BR>
+		ResultSet resultSet = statement.executeQuery(&quot;select user_name,age from imooc_goddess&quot;);<BR>
+		TraResultSet(resultSet);<BR>
+	}<BR>
+<BR>
+	public void TraResultSet(ResultSet resultSet) throws SQLException {<BR>
+		while (resultSet.next()) {<BR>
+			System.out.println(resultSet.getString(&quot;user_name&quot;) + &quot;  &quot; + resultSet.getString(&quot;age&quot;));<BR>
+		}<BR>
+	}<BR>
+<BR>
+}</span><BR>
+
+</DD>
+</DL>
+
+</DD>
+</DL>
+
+</DD>
+</DL>
+</BODY>
+</HTML>

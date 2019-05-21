@@ -1,0 +1,29 @@
+class AbstractApplicationContext{
+
+	public static final String APPLICATION_EVENT_MULTICASTER_BEAN_NAME = "applicationEventMulticaster";
+
+	protected void initApplicationEventMulticaster() {
+		//获取BeanFactory
+		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+		//判断BeanFactory中是否存在名字为applicationEventMulticaster的Bean(是否已经存在一个事件多播器对象)
+		if (beanFactory.containsLocalBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME)) {
+			//如果存在，把BeanFactory中的applicationEventMulticaster（ApplicationEventMulticaster类型）赋值给IOC容器自己的属性
+			this.applicationEventMulticaster =
+					beanFactory.getBean(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, ApplicationEventMulticaster.class);
+			if (logger.isDebugEnabled()) {
+				logger.debug("Using ApplicationEventMulticaster [" + this.applicationEventMulticaster + "]");
+			}
+		}  //如果不存在
+		else {
+			//new一个SimpleApplicationEventMulticaster（简单的全局事件多播器）赋值给IOC容器自己的属性
+			this.applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
+			//注册到BeanFactory中
+			beanFactory.registerSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, this.applicationEventMulticaster);
+			if (logger.isDebugEnabled()) {
+				logger.debug("Unable to locate ApplicationEventMulticaster with name '" +
+						APPLICATION_EVENT_MULTICASTER_BEAN_NAME +
+						"': using default [" + this.applicationEventMulticaster + "]");
+			}
+		}
+	}
+}

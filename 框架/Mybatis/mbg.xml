@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+	<!-- targetRuntime="MyBatis3Simple":生成简单版的CRUD MyBatis3:豪华版 -->
+
+
+	<context id="DB2Tables" targetRuntime="MyBatis3">
+
+		<!-- 是否阻止生成注释,true为阻止生成注释，false为不阻止生成注释 -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true"></property>
+		</commentGenerator>
+
+		<!-- jdbcConnection：指定如何连接到目标数据库 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/book" userId="root"
+			password="123456">
+		</jdbcConnection>
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- javaModelGenerator：指定javaBean的生成策略 targetPackage="test.model"：目标包名 
+			targetProject="\MBGTestProject\src"：目标工程 -->
+		<javaModelGenerator targetPackage="com.ssm.entites"
+			targetProject=".\src\main\java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!-- sqlMapGenerator：sql映射生成策略： -->
+		<sqlMapGenerator targetPackage="mybatis-mapper"
+			targetProject=".\src\main\resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!-- javaClientGenerator:指定mapper接口所在的位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.ssm.dao" targetProject=".\src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<!-- 指定要逆向分析哪些表：根据表要创建javaBean，domainObjectName为bean的类名 -->
+		<table tableName="user" domainObjectName="User"></table>
+		<table tableName="Book" domainObjectName="Book"></table>
+		<table tableName="Book_class" domainObjectName="BookClass"></table>
+		<table tableName="card_item" domainObjectName="CardItem"></table>
+		<table tableName="trade" domainObjectName="Trade"></table>
+		<table tableName="trade_item" domainObjectName="TradeItem"></table>
+	</context>
+</generatorConfiguration>

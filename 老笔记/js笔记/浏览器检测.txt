@@ -1,0 +1,76 @@
+一、window.navigator     //浏览器对象
+
+	1.
+		navigator.appName;   //返回浏览器名称，但不精确。
+	2.
+		navigator.userAgent; //返回用户代理字符串（浏览器信息）    常用*
+	3.
+		navigator.platform;  //返回所在的系统和版本   常用*
+
+二、加载一个js文件 方便浏览器检测   browserdetect.js
+
+	1.
+		BrowserDetect.browser;    //返回浏览器名称（精确）。
+	2.
+		BrowserDetect.version;    //返回浏览器版本号。
+	3.
+		BrowserDetect.OS;         //返回系统名称
+
+三、navigator对象的plugins属性是一个数组，储存浏览器已安装插件的完整列表
+
+	1.
+		navigator.plugins[n].name 		 //返回第N个插件的插件名
+	2.
+		navigator.plugins[n].filename	 //返回第N个插件的文件名
+	3.
+		navigator.plugins[n].description //返回第N个插件的表述信息
+	4.
+		检测浏览器是否存在某个控件
+		function hasPlugin(name)
+		{
+			var name=name.toLowerCase();
+			for(var i=0;i<navigator.plugins.length;i++)
+			{
+
+				if(navigator.plugins[n].name.toLowerCase().indexOf(name))
+				{
+					alert('检测到'+name);
+					return true;
+				}
+			}
+		}      //非IE   IE再看一遍视频吧，太麻烦
+
+四、客户端检测
+
+	1.能力检测，检测浏览器的能力。典型案例，获取显示范围宽度
+		var width=window.innerWidth;
+		var height=window.innerHeint;
+		if(typeof width!='number')
+		{
+			if(document.compatMode=='CSS1Compat'){
+				width=document.documentElement.clientWidth;
+				Height=document.documentElement.clientHeight;
+				
+			}
+			else{
+				width=document.body.clientWidth;
+				height=document.body.clientHeight;
+			}
+		}
+	2.bug检测
+		var box={
+			toString:function(){},    
+			name:'lee',
+			age:18
+		}
+		for(var o in box)      //遍历box对象中所有成员（数据和函数）
+		{
+			alert(o);
+		}
+             //IE找不到toString，小bug因为重名
+    3.用户代理检测
+    
+		略，有需要重新看
+
+
+

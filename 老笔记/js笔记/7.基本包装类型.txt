@@ -1,0 +1,139 @@
+//基本包装类型
+
+
+
+// var box='chen';            //定义一个字符串
+// var box2=box.substring(2); //截掉字符串前两位
+// alert(box2);               //en   输出新字符
+//对象.方法（参数），这种写法明显是引用类型的写法
+//索引0开始，从第2个位置开始截取到末尾的字符串输出
+//是基本类型，但有时特殊的引用类型，基本包装类型
+//因为他可以调用系统内置的方法
+//
+//
+//
+ // var box='chen'; //基本类型
+ // box.name='hen';// 给基本类型加属性
+ // box.age=function(){  //给基本类型加方法
+ // 	return 100;
+ // };
+ // alert(box); //chen
+ // alert(typeof box); //string
+ // alert(box.substring(2)); //en  有效
+ // alert(box.name);// undefined  打印不出来
+ // alert(box.age);//undefined  出错
+ //                //基本类型是无法给自己创建属性和方法的
+ //                //但是，可以调用系统内置的属性和方法
+ //
+ //
+ //
+ // var box=new String('chen'); //引用类型，String的引用类型
+ // box.name='hen';
+ // box.age=function(){  
+ // 	return 100;
+ // };
+ // alert(box); 
+ // alert(typeof box);   //Object
+ // alert(box.substring(2)); //有效
+ // alert(box.name);       //自定义属性有效
+ // alert(box.age);		//自定义方法有效
+ //
+ //
+
+ //Number 对象的方法
+ // var box=1000.789;
+ // alert(box.toFixed(2));//1000.79  小数点保留两位，并转换字符，四舍五入
+ // alert(box.toExponential());//1.000789e+3 以指数形式，并转换字符串
+ // alert(box.toPrecision(6));//根据传参来决定指数或点数
+ // Number 对象的方法
+ // tostring()将数值转化为字符串，并且可以转换进制
+ // toLocaleString()根据本地数字格式转换为字符串
+ //
+ //
+ //String类型包含了三个属性和大量的可用内置方法
+ // String 对象属性
+ // length    返回字符串的字符长度
+ //constructor 返回创建String对象的函数
+ //prototype  通过添加属性和方法扩展字符串定义
+ //
+ //
+ //
+  // var box='huaio';
+ // alert(box.charAt(1)); //u 
+ // alert(box.charCodeAt(2)); //97 asscii编码
+ // alert(box[1]); //u ，通过数组方式截取
+ // //ps box[1]在IE浏览器会显示undefined，所以使用时要慎重
+ // alert(box.concat('is','beautiful','girl'));//huaioisbeautifulgirl  参数字符串连接
+ // alert(box.slice(3,5));//io 返回字符串n-m之间位置的字符串
+ //alert(subString(n,m));//同上
+ // alert(box.substr(1,5));//uaio 从第1个开始，选5个
+ // alert(box.slice(2));
+ // alert(box.subString(2)); //三个都是aio
+ // alert(box.substr(2));
+//
+//
+ // alert(box.slice(-2));//io  ，5+(-2)=3,从第三位开始  
+ // alert(box.substring(-2));//huaio ,负数返回全部字符串
+ // alert(box.substr(-2));//io ，5+(-2)=3,从第三位开始  
+ //
+ //
+ // alert(box.slice(2,-1));//ai , 5+(-1)=4,从第2个到第4个
+ // alert(box.slice(-2,-1));//i ,从第3个到第4个
+ // alert(box.substring(2,-1));//hu ,参数如果是负，直接0，
+ 							//如果第二个参数比第一个参数小
+ 							//那么第二个参数提前 (2,0)<=>(0,2);
+// alert(box.substr(2,-1));//第二参数为负，直接0，（2,0），空
+// alert(box.substr(-2));//io  IE浏览器遇到负值，会返回原本字符串
+//
+//
+//
+// var box='chen nai nai ni hao';
+// alert(box.indexOf('n')); //3,返回从初始位置搜索n第一次的位置
+// alert(box.lastIndexOf('n'));//13,返回从末尾位置搜索n第一次出现的位置
+// alert(box.lastIndexOf('n',5));// 从第5个位置开始搜索n第一次出现的位置
+// alert(box.indexOf(','));  //找不到，返回-1
+//
+//
+//
+// var box='chen.BBb';
+// alert(box.toLowerCase());//chen.bbb  小写
+// alert(box.toUpperCase());//CHEN.BBB  大写
+//
+//
+// var box='chen.BBb';
+// alert(box.match('L'));//找到L即返回L ，没有找到就返回null
+// alert(box.search('B'));//5， 找到L的位置
+// alert(box.replace('B','h'));//chen.hBb ，替换
+// alert(box.split(''));//c,h,e,n,.,B,B,b  以空格分隔成字符串
+// 
+// 
+// 
+// alert(String.fromCharCode(76));//L  放一个ASCII码，输出相应的值
+// 
+// 
+// 
+// var box='chen';
+// alert(box.localeCompare('alchen'));//1
+// alert(box.localeCompare('chen'));//0
+//1.如果字符串在字母表中应该排在字符串参数之前，则返回一个负数。（多数-1）
+//2.如多字符串等于字符串参数，则返回0。
+//3.如果字符串在字符表中应该排在字符串参数之后，则返回一个正数。（多数1）
+// 
+// 
+// 
+// var box='百度';
+// alert(box.link('http://www.baidu.com'));//<a href="http://www.baidu.com">百度</a>
+//通过JS生成一个html标签，根据经验，没什么太大用处，做个了解
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,183 @@
+一、事件
+	说明：一般调用事件是节点.事件，事件可以说成是节点的一个属性，把匿名函数赋给它就可以直接调用，也可以把一个写好的函数赋给它，直接执行，节点是元素节点，可以是某一个元素节点也可以是document节点，有些事件不需要和节点绑定，比如键盘事件，可以按下键盘就触发。
+		1.鼠标事件
+				节点.函数名
+			例input.onclick=function(){
+				alert('你好');
+			}
+			（1）onclick       单击
+			（2）ondblclick    双击
+			（3）onmousedown   鼠标按下
+			（4）onmouseup	   鼠标弹起
+			（5）onmouseover   鼠标移动到某个元素
+			（6）onmouseout	   鼠标移出某个元素
+			（7）onmousemove   鼠标在一个元素上方移动
+		2.键盘事件
+			不需要用节点调用，可以直接调用
+			例onkeydown=function(){
+				alert('你好');
+			}
+			（1）onkeydown       当用户按下键盘任意触发，如果按住不动会重复触发
+			（2）onkeypress      当用户按下键盘上的字符键触发，按住不放重复触发
+			（3）onkeyup         当用户释放键盘上的键时触发
+		3.HTML事件
+			（1）onload    当页面加载完触发
+					window.onload=function(){
+						alert('你好');
+					}      
+			（2）onunload  当页面卸载后触发
+					window.onunload=function(){
+						alert('你好');
+					}      
+			（3）onselect   当用户选择文本框的一个或多个字符触发，松开鼠标时
+					input.onselect=function(){
+						alert('你好');
+					}
+			（4）onchange   当文本框内容改变后且光标离开
+					input.onchange=function(){
+						alert('你好');
+					}
+			（5）onfocus   	当页面或者元素获得焦点时在window及相关元素上面触发，例，当文本框获得光标时
+					input.onfocus=function(){
+						alert('你好');
+					}
+			（6）onblur     当页面元素失去焦点是在window及相关元素上触发，例，当文本框内光标离开时
+					input.onblur=function(){
+						alert('你好');
+					}
+			（7）onsubmit	当用户点击‘提交’按钮在form元素上触发
+					form.onsubmit=function(){
+						alert('你好');
+					}
+			（8）onreset	当用户‘重置’按钮在form元素上触发
+					form.onreset=function(){
+						alert('你好');
+					}
+			（9）onresize	当窗口或框架的大小变化时在window或框架上触发
+					window.onscroll=function(){
+						alert('你好');
+					}
+			（9）onscroll	当用户滚动带滚动条的元素时触发
+					window.onscroll=function(){
+						alert('你好');
+					}
+二、事件进阶
+	说明：document.onclick=function(){
+				alert('你好');
+			}     
+			这个函数看似没有传参，其实传了一个参数，如果是鼠标事件，就会传一个鼠标的对象
+	1.鼠标对象
+			document.onmouseup=function(evt){
+				var e=evt||window.event;
+			}    IE不兼容，但有类似对象window.event;
+		（1）鼠标按钮           需要做兼容时再看一遍
+			button属性，点击的哪一个键
+			0代表左键，1代表中键，2代表右键
+			IE也有button属性，0代表没有按下按钮，1按下左键，2按下右键，3同时按下左右键，4按下中键，5,同时按下左键和中键，6同时按下了鼠标右键和中键，7同时按下三个鼠标按钮
+		（2）可视区及屏幕坐标
+			属性：   chentX           可视区X坐标，距离左边框的位置
+					 chentY			  可视区Y坐标，距离上边框的位置
+					 screenX          屏幕区X坐标，距离左屏幕的位置
+					 screenY		  屏幕区Y坐标，距离上屏幕的位置
+		（3）修改键
+			属性     shiftKey		  判断是否按下了Shift键
+					 ctrlKey		  判断是否按下了Ctrl
+					 altKey			  判断是否按下了alt
+					 metaKey		  判断是否按下了window键，IE不支持
+	2.键盘对象
+			document.onkeydown=function(evt){
+				var e=evt||window.event;
+				alert(e.keyCode);
+			}
+		（1）keyCode  返回键码，键盘上每一个按键的编码，字母和数字为ASCII编码，字母固定为小写
+		   如果用keypress事件，字母区分大小写，但是浏览器可能出现不兼容，需要测试，如需做兼容，再看一遍视频
+	3.补充
+	****（1）target    获取目标元素节点  IE不支持  相同属性为  srcElement 需要做兼容
+				document.onclick=function(evt){
+					var e=evt||window.event;
+					alert(e.target.tagName);
+				}       单击某一个元素，获取这个元素的标签名
+		（2）冒泡与捕获
+				嵌套元素事件触发，冒泡由内向外触发，捕获由外向内触发
+				stopPropagation   取消冒泡 Wsc  函数
+					e.stopPropagation();
+				cancelBubble      取消冒泡 IE  ture取消，false打开，默认false  属性
+					e.cancelBubble=ture;     这个支持更广泛，如果又不支持需要做兼容
+三、事件绑定及深入（现代绑定）   对象名.成员 =对象名['成员']
+	1.事件处理函数   添加事件   
+		用法：元素节对象.函数(。。。);
+		（1）addEventListener() 添加事件处理程序
+			参数：第一个   事件名   如鼠标单击
+				  第二个   函数   这个事件将要执行的函数
+				  第三个   冒泡(false)或捕获（ture）的布尔值   IE只支持冒泡
+				  例input.addEvenListener('load',function(){alert('hello');},false)
+		（2）removeEventListener() 删除事件处理程序
+				同上
+四、事件补充
+	1.relateTarget属性
+		可以在mouseover和mouseout两个事件中获取从哪个元素节点移入或移出的dom对象
+		例 box.onmouseover=function(evt){
+			alert(evt.relateTarget);
+		}    IE需要兼容，再看一遍
+	2.阻止默认行为，比如a超链接
+	例 
+		var link=document.getElementByTagName[0];
+		link.addEventListener('click',function(evt){
+			evt.preventDefault();
+		},false);
+
+	W3C：  preventDefault();阻止默认行为函数
+	IE：   returnValue=false;阻止默认行为属性，默认ture不阻止，false阻止
+	3.contexmenu事件，修改右击菜单事件
+		例 var text=document.getElementById('text');
+			adddEventListener(link,'contexmenu',function(evt){
+				var e=evt||window.event;
+				e.preventDefault();
+				var menu=document.getElementById('menu');
+				menu.style.left=e.clientX+'px';
+				menu.style.top=e.clientY+'px';
+				menu.style.dispaly='block';
+				document.addEventListener('click',function(){
+					menu.style.display='none';
+				},false);
+			});
+	4.beforeunload 卸载前事件（一般和阻止默认性行为结合防止误操作）
+							（页面转向或刷新或关闭时触发，离开本页面）
+		例
+		window.addEventListener('beforeunload',function(evt){
+			evt.preventDefault();
+			evt.returnValue='test';    //returnVaule  设置或获取事件的返回值
+			return;
+		},false);
+
+	5.mousewheel和DOMMouseScroll鼠标滚轮，用于获取鼠标上下滚轮的距离   距离上正下负
+		第一个是非火狐第二个是火狐，
+		（1）非火狐获取距离属性，evt.wheelDelta，
+		（2）火狐（-evt.detail*30）火狐比较怪异正负相反，大小不一致，为了一直做了兼容
+		window.addEventListener('mousewheel',function(evt){
+			alert(evt.wheelDelta);
+		},false);
+	6.returnVaule	该属性是设置或获取事件的返回值。
+		Event对象的returnValue属性的值一般是true,即脚本处理完自己的工作后由元素处理事件。
+		通过该属性可以取消事件处理程序中调用函数的默认操作。			
+
+		
+
+悬念  DOMContentLoaded事件和readystatechange事件
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,125 @@
+// 12 章    变量、作用域及内存
+
+// var box='lee';//基本类型值，是字符串
+// box.age=22;//基本类型值添加属性，很怪异
+// alert(box.age);//不是引用类型，无法输出
+
+
+
+// var box="lee";
+// var box2='box';
+// box2='kkk';            //基本类型保持独立，box2的修改不会影响box
+// alert(box2);
+// alert(box);
+
+
+
+// var box=new Object();
+// box.name='lee';
+// var box2=box;
+// box2.name='kkk';    //应为他们指向的同一个Object,所以有一个改变都会改变
+// alert(box2.name); //kkk
+// alert(box.name);//kkk
+
+
+// function box(num){     //按值传递
+// 	num+=10;
+// 	return num;
+// }
+// var num=50;
+// alert(box(num)); //60    
+// alert(num);//50   如果是按引用传递，那么函数里的num会成为类似全局变量
+// //把外面的值替换掉 输出60
+
+
+
+
+
+
+
+// 基本类型检查 用  typeof
+// 引用类型检查 用  instanceof 
+// var box={};
+// alert(box instanceof Object); //ture   是否是数组
+// var box2=[1,2,3]; //
+// alert(box2 instanceof Array);  //true  是否是对象
+// var box3=/g/;
+// alert(box3 instanceof RegExp);//true 是否是正则表达式
+
+
+
+
+
+// var box='lee';
+// function setBox(){
+// 	return 123;
+// }     
+// alert(window.box);  //全局变量，最外围，是属于window属性
+// alert(window.setBox());//全局函数 即window的方法
+
+
+// var box='lll';
+// function setBox(){
+// 	var box='red'; //这个是局部变量，它的范围在setbox 出来不认识了
+// }
+// setBox();
+// alert(box);
+
+
+
+
+// var box='lll';
+// function setBox(){
+// 	box='red'; //去掉var就变成全局变量了
+// }
+// setBox();
+// alert(box);
+
+
+
+
+// var box='lll';
+// function setBox(){ //通过传参，也是局部变量，作用域在setBox()范围下
+// 	alert(box);//lll
+// }
+// setBox('red');
+// alert(box);//lll
+
+
+
+// if (true) {      //if语句{}没有作用域的功能
+// 	var box='lee';
+// }
+// alert(window.box); //lee
+ 
+
+
+
+// for (var i = 0; i < 10; i++)
+//  {
+// 	var box='lee';          //全局变量
+// }
+// alert(window.i);
+// alert(box);
+
+
+
+// function box()
+// {
+// 	 num=10; //如果有var ，在函数体内声明变量就是局部的，去掉var就是全局变量
+// }			//非常不建议不适用var就初始化变量，会导致各种意外发生
+// box();
+// alert(num);
+
+
+// 内存机制
+
+var box={};
+box.name='lee'; 
+alert(box.name);//lee
+box=null;        //销毁引用，等待垃圾收集器来清理 试用大多数全局变量
+alert(box.name);//无操作
+
+
+
+

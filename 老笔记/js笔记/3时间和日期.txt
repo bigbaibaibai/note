@@ -1,0 +1,53 @@
+*************************************************时间与日期
+//Date 对象用于处理日期和时间。
+
+
+var box=new Date(); //创建了一个日期对象，构造方法里面可以传参数，指定时间
+alert(box);
+
+
+
+alert(Date.parse('3/11/2018'));//返回一个毫秒数：1520697600000;
+
+
+var box=new Date(1520697600000); //直接放日期的毫秒数也是可以的,
+alert(box);//Sun Mar 11 2018 00:00:00 GMT+0800 (中国标准时间)
+
+
+
+var box=new Date('3/11/2018');//默认后台调用Date.parse(),
+alert(box);//Sun Mar 11 2018 00:00:00 GMT+0800 (中国标准时间)
+
+
+
+alert(Date.parse());//没有传入日期格式参数，返回NaN;
+
+
+alert(Date.UTC());//必须传入年份和月份，不传，就各种错误,负值，有NaN
+
+
+alert(Date.UTC(2018.3));//返回毫秒数
+
+
+
+//UTC世界协调时间，它会按照它的区域基准进行计算
+var box=new Date(Date.UTC(2018,3,11,16,15,54));
+alert(box);//Thu Apr 12 2018 00:15:54 GMT+0800 (中国标准时间)
+
+
+
+
+var box=new Date(2018,3,11,16,20,23);
+alert(box);//Wed Apr 11 2018 16:20:23 GMT+0800 (中国标准时间)
+alert('toString:'+box.toString());//toString:Wed Apr 11 2018 16:20:23 GMT+0800 (中国标准时间)
+alert('toLocaleString:'+box.toLocaleString());//toLocaleString:2018/4/11 下午4:20:23
+alert('valueOf:'+box.valueOf());//valueOf:1523434823000
+
+
+
+var box=new Date(2018,3,11,16,20,23);
+alert(box.toDateString());//以特定的格式显示星期几、月、日、年;Wed Apr 11 2018
+alert(box.toTimeString());//以特定的格式显示时、分秒和时区;16:20:23 GMT+0800 (中国标准时间)
+alert(box.toLocaleDateString());//以特定的格式显示星期几、月、日和年;2018/4/11
+alert(box.toLocaleTimeString());//以特定的格式显示时、分、秒和时区;下午4:20:23
+alert(box.toUTCString());//以特定的格式显示完整的UTC时间;Wed, 11 Apr 2018 08:20:23 GMT
