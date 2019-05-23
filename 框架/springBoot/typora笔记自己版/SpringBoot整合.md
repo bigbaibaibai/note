@@ -2027,6 +2027,12 @@ public class Springboot04TaskApplication {
 ```java
 @Service
 public class ScheduledService {
+    
+    //@Scheduled(fixedRate = 5000) 上一次开始执行时间点之后5秒再执行
+   	//@Scheduled(fixedDelay = 5000) 上一次执行完毕时间点之后5秒再执行
+   	//@Scheduled(initialDelay=1000, fixedRate=5000) 第一次延迟1秒后执行，之后按fixedRate的规则每5秒//执行一次
+    //@Scheduled(cron="*/5 * * * * *") 通过cron表达式定义规则
+    
 	//时间表达式，秒 分 时 日 月 周
     @Scheduled(cron = "0 * * * * MON-STA")  //周一周六每分钟执行依次，*表示所有
     public void hello() {
