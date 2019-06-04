@@ -1,0 +1,8 @@
+1.忽略不存在属性
+@JsonIgnoreProperties(ignoreUnknown = true) ， 类级别注解
+
+@JsonIgnoreProperties({ "internalId", "secretKey" }) 指定某些属性不需要被序列化和反序列化
+
+2.忽略指定属性
+@JsonIgnore ，属性级别注解，也可以放在getter setter上
+

@@ -1,0 +1,4 @@
+1 public BigDecimal add(BigDecimal value);                        //加法
+2 public BigDecimal subtract(BigDecimal value);                   //减法 
+3 public BigDecimal multiply(BigDecimal value);                   //乘法
+4 public BigDecimal divide(BigDecimal value);                     //除法
