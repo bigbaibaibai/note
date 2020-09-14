@@ -20,7 +20,7 @@
 		<!-- mysql驱动版本 -->
 		<mysql.connector.version>5.1.37</mysql.connector.version>
 		<!-- 配置taglibs版本 -->
-		<taglibs.version>1.2.1</taglibs.version>
+		<taglibs.version>1.2.5</taglibs.version>
 		<!-- c3p0版本控制 -->
 		<c3p0.version>0.9.5.2</c3p0.version>
 		<!-- servletAPI版本控制 -->
