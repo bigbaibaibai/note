@@ -22,7 +22,7 @@
 		<!-- 配置taglibs版本 -->
 		<taglibs.version>1.2.1</taglibs.version>
 		<!-- c3p0版本控制 -->
-		<c3p0.version>0.9.5.2</c3p0.version>
+		<c3p0.version>0.9.5.4</c3p0.version>
 		<!-- servletAPI版本控制 -->
 		<servlet.version>3.1.0</servlet.version>
 		<!-- mybatis-generator版本控制 -->
