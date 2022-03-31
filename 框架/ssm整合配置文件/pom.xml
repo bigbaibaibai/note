@@ -11,7 +11,7 @@
 		<!-- junit版本 -->
 		<junit.version>4.6</junit.version>
 		<!-- spring版本 -->
-		<spring.version>4.3.14.RELEASE</spring.version>
+		<spring.version>5.3.18</spring.version>
 		<!-- mybatis版本 -->
 		<mybatis.version>3.4.1</mybatis.version>
 		<!-- mybatis-spring版本 -->
